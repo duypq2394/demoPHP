@@ -6,3 +6,7 @@ https://allaravel.com/series
 https://quizlet.com/jp/478643489/tango-n2-112-人と関係-flash-cards/
 Bun shirataki
 https://mikasajyuku.jp/mikasa_hp/hoc-trung-tam-nao-thi-co-the-thi-do-jlpt-nhanh-nhat-hoc-nhung-sach-nao-thi-co-the-thi-do-ki-thi-jlptphan-2/
+casio B640WB-1BJF
+casio A168WG-9E
+casio b640wd
+casio A168-WEGB
