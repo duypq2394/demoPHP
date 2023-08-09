@@ -1,0 +1,54 @@
+[root@nois_db01 ~]# ifconfig
+ens192: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 172.16.15.116  netmask 255.255.248.0  broadcast 172.16.15.255
+        inet6 fe80::20c:29ff:fee5:5cec  prefixlen 64  scopeid 0x20<link>
+        ether 00:0c:29:e5:5c:ec  txqueuelen 1000  (Ethernet)
+        RX packets 1041661  bytes 1130017611 (1.0 GiB)
+        RX errors 0  dropped 32  overruns 0  frame 0
+        TX packets 175710  bytes 533473584 (508.7 MiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+ens224: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 172.16.19.92  netmask 255.255.252.0  broadcast 172.16.19.255
+        inet6 fe80::20c:29ff:fee5:5cf6  prefixlen 64  scopeid 0x20<link>
+        ether 00:0c:29:e5:5c:f6  txqueuelen 1000  (Ethernet)
+        RX packets 1067077  bytes 70646271 (67.3 MiB)
+        RX errors 0  dropped 29  overruns 0  frame 0
+        TX packets 428950  bytes 25683973 (24.4 MiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1  (Local Loopback)
+        RX packets 374231  bytes 7445608489 (6.9 GiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 374231  bytes 7445608489 (6.9 GiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+virbr0: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+        inet 192.168.122.1  netmask 255.255.255.0  broadcast 192.168.122.255
+        ether 52:54:00:cd:ac:ae  txqueuelen 1000  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+[root@nois_db01 ~]#
+[root@nois_db01 ~]#
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
