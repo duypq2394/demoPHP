@@ -1,46 +1,72 @@
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/modules/networkgraph.js"></script>
+<html>
+<head>
+	<script type="text/javascript">
+		mxBasePath = 'https://jgraph.github.io/mxgraph/javascript/src';
+	</script>
+	<script type="text/javascript" src="https://jgraph.github.io/mxgraph/javascript/src/js/mxClient.js"></script>
+	<style type="text/css">
+		.flow {
+		  stroke-dasharray: 8;
+		  animation: dash 0.5s linear;
+		  animation-iteration-count: infinite;
+		}
+		@keyframes dash {
+		  to {
+		    stroke-dashoffset: -16;
+		  }
+		}
+	</style>
+	
+	<script type="text/javascript">
+		function main(container)
+		{
+			var graph = new mxGraph(container);
+			graph.setEnabled(true);
+			var parent = graph.getDefaultParent();
 
-<div id="container"></div>
-
-///////
-
-#container {
-  min-width: 320px;
-  max-width: 500px;
-  margin: 0 auto;
-  height: 500px;
-}
-///////
-
-Highcharts.chart('container', {
-  chart: {
-    type: 'networkgraph',
-    marginTop: 80
-  },
-  title: {
-    text: 'Network graph'
-  },
-  plotOptions: {
-    networkgraph: {
-      keys: ['from', 'to'],
-    }
-  },
-  series: [{
-    marker: {
-      radius: 30
-    },
-    dataLabels: {
-      enabled: true,
-      linkFormat: '',
-      allowOverlap: true
-    },
-    data: [
-      ['Node 1', 'Node 2'],
-      ['Node 1', 'Node 3'],
-      ['Node 1', 'Node 4'],
-      ['Node 4', 'Node 5'],
-      ['Node 2', 'Node 5']
-    ]
-  }]
-});
+			var vertexStyle = 'shape=cylinder;strokeWidth=2;fillColor=#ffffff;strokeColor=black;' +
+				'gradientColor=#a0a0a0;fontColor=black;fontStyle=1;spacingTop=12;';
+				
+			graph.addListener('size', function()
+			{
+				// Adds animation to edge shape and makes "pipe" visible
+				graph.view.states.visit(function(key, state)
+				{
+					if (graph.model.isEdge(state.cell))
+					{
+						state.shape.node.getElementsByTagName('path')[0].removeAttribute('visibility');
+						state.shape.node.getElementsByTagName('path')[0].setAttribute('stroke-width', '6');
+						state.shape.node.getElementsByTagName('path')[0].setAttribute('stroke', 'lightGray');
+						state.shape.node.getElementsByTagName('path')[1].setAttribute('class', 'flow');
+					}
+				});
+			});
+			
+			graph.getModel().beginUpdate();
+			try
+			{
+				var v1 = graph.insertVertex(parent, null, 'Pump', 20, 20, 60, 60,vertexStyle);
+				var v2 = graph.insertVertex(parent, null, 'Tank 1', 200, 150, 60, 60,vertexStyle);
+				var v3 = graph.insertVertex(parent, null, 'Tank 2', 100, 150, 60, 60,vertexStyle);
+				var e1 = graph.insertEdge(parent, null, '', v1, v2, 'strokeWidth=3;endArrow=block;' +
+					'endSize=2;endFill=1;strokeColor=black;rounded=1;edgeStyle=orthogonalEdgeStyle');
+				e1.geometry.points = [new mxPoint(230, 50)];
+				var e2 = graph.insertEdge(parent, null, '', v1, v3, 'strokeWidth=3;endArrow=block;' +
+					'endSize=2;endFill=1;strokeColor=black;rounded=1;edgeStyle=orthogonalEdgeStyle');
+				e2.geometry.points = [new mxPoint(50, 180)];
+				graph.orderCells(true, [e1, e2]);
+			}
+			finally
+			{
+				// Updates the display
+				graph.getModel().endUpdate();
+			}
+		};
+	</script>
+</head>
+<body onload="main(document.getElementById('graphContainer'))">
+	<div id="graphContainer"
+		style="position:relative;overflow:hidden;width:100%;height:100%;cursor:default;">
+	</div>
+</body>
+</html>
