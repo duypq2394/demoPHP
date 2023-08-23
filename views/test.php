@@ -157,7 +157,7 @@
                     <g class="highcharts-label" transform="translate(300,500)" aria-hidden="true">
                         <rect fill="#002060" class="highcharts-label-box" x="0" y="0" width="156" height="26"></rect>
                         <text x="3" data-z-index="1" y="19.5"
-                            style="color: white; font-size: 20px; fill: white;">172.16.13.39</text>
+                            style="color: white; font-size: 20px; fill: white;">172.16.15.114</text>
                     </g>
                     <?php if ($vip1) { ?>
                     <?php if ($web1) { ?>
@@ -196,7 +196,7 @@
                     <g class="highcharts-label" transform="translate(865,100)" aria-hidden="true">
                         <rect fill="#002060" class="highcharts-label-box" x="0" y="0" width="156" height="26"></rect>
                         <text x="3" data-z-index="1" y="19.5"
-                            style="color: white; font-size: 20px; fill: white;">172.16.13.39</text>
+                            style="color: white; font-size: 20px; fill: white;">172.16.15.116</text>
                     </g>
                     <g class="highcharts-label" opacity="<?php echo $db2 ? "1" : "0.5" ?>"
                         transform="translate(865,500)" filter="url(#highcharts-drop-shadow-0)" aria-hidden="true">
@@ -206,7 +206,7 @@
                     <g class="highcharts-label" transform="translate(865,500)" aria-hidden="true">
                         <rect fill="#002060" class="highcharts-label-box" x="0" y="0" width="156" height="26"></rect>
                         <text x="3" data-z-index="1" y="19.5"
-                            style="color: white; font-size: 20px; fill: white;">172.16.13.39</text>
+                            style="color: white; font-size: 20px; fill: white;">172.16.15.117</text>
                     </g>
                     <g class="highcharts-label" transform="translate(650,320)" aria-hidden="true">
                         <rect fill="#FFC000" class="highcharts-label-box" x="0" y="0" width="76" height="36"></rect>
@@ -233,7 +233,7 @@
                     <g class="highcharts-label" transform="translate(1365,100)" aria-hidden="true">
                         <rect fill="#002060" class="highcharts-label-box" x="0" y="0" width="156" height="26"></rect>
                         <text x="3" data-z-index="1" y="19.5"
-                            style="color: white; font-size: 20px; fill: white;">172.16.13.39</text>
+                            style="color: white; font-size: 20px; fill: white;">172.16.13.40</text>
                     </g>
                     <g class="highcharts-label" opacity="<?php echo $fs2 ? "1" : "0.5" ?>"
                         transform="translate(1365,500)" filter="url(#highcharts-drop-shadow-0)" aria-hidden="true">
@@ -243,7 +243,7 @@
                     <g class="highcharts-label" transform="translate(1365,500)" aria-hidden="true">
                         <rect fill="#002060" class="highcharts-label-box" x="0" y="0" width="156" height="26"></rect>
                         <text x="3" data-z-index="1" y="19.5"
-                            style="color: white; font-size: 20px; fill: white;">172.16.13.39</text>
+                            style="color: white; font-size: 20px; fill: white;">172.16.15.124</text>
                     </g>
                     <g class="highcharts-label" transform="translate(1150,370)" aria-hidden="true">
                         <rect fill="#FFC000" class="highcharts-label-box" x="0" y="0" width="76" height="36"></rect>
