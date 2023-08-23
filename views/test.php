@@ -14,21 +14,59 @@
 
 <body>
     <?php 
-        $web1 = true;
+       	$web1 = false;
         $web2 = false;
-        $vip1 = '172.16.15.113';
-        $db1 = true;
+        $vip1 = '';
+        $db1 = false;
         $db2 = false;
-        $vip2 = '172.16.15.118';
-        $fs1 = true;
+        $vip2 = '';
+        $fs1 = false;
         $fs2 = false;
-        $vip3 = '172.16.15.120';
-        $output = [];
-        // exec("sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh root@172.16.13.39 ip a", $output);
-        exec('ip a',$output);
-        $vip1 = getVipIp($output, '172.16.13.39');
+        $vip3 = '';
+   
+      	// vip1
+        $vip1 = getVipIp('172.16.13.39', 'ip a');
+        if($vip1) {
+        	$web1 = true;
+        	$web2 = false;
+        } else {
+        	$vip1 = getVipIp('172.16.15.144', "sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh root@172.16.15.144 ip a");
+        	if($vip1) {
+        		$web1 = false;
+        		$web2 = true;
+        	}
+        }
         
-        function getVipIp ($data, $ip) {
+        // vip2
+        $vip2 = getVipIp('172.16.15.116', "sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh root@172.16.15.116 ip a");
+        if($vip2) {
+        	$db1 = true;
+        	$db2 = false;
+        } else {
+        	$vip2 = getVipIp('172.16.15.117', "sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh root@172.16.15.117 ip a");
+        	if($vip2) {
+        		$db1 = false;
+        		$db2 = true;
+        	}
+        }
+        
+        // vip3
+        $vip3 = getVipIp('172.16.13.40', "sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh root@172.16.13.40 ip a");
+        if($vip3) {
+        	$fs1 = true;
+        	$fs2 = false;
+        } else {
+        	$vip3 = getVipIp('172.16.15.124', "sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh root@172.16.15.124 ip a");
+        	if($vip1) {
+        		$fs1 = false;
+        		$fs2 = true;
+        	}
+        }
+        
+        function getVipIp ($ip, $code) {
+        	$data = [];
+        	
+        	exec($code, $data);
             $length = count($data);
             $i= 0;
             $ens = '';
@@ -53,9 +91,9 @@
             return $vip;
         }
     ?>
-    <script src="./test_files/highcharts.js"></script>
-    <script src="./test_files/exporting.js"></script>
-    <script src="./test_files/accessibility.js"></script>
+    <script src="./ssh_check_files/highcharts.js"></script>
+    <script src="./ssh_check_files/exporting.js"></script>
+    <script src="./ssh_check_files/accessibility.js"></script>
 
     <figure class="highcharts-figure">
         <div id="container" data-highcharts-chart="0" aria-hidden="false" role="region"
