@@ -24,6 +24,30 @@
     $fs1 = true;
     $fs2 = false;
     $vip3 = '172.16.15.120';
+
+$output = '';
+// exec("sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh root@172.16.13.39 ip a", $output);
+exec('ip a',$output);
+$length = count($output);
+$i= 0;
+$ens = '';
+
+while($i < $length) {
+ if($ens == '') {
+   if (str_contains($output[$i], '172.16.13.39')) {
+    $ens = strstr($output[$i], 'ens');
+    $ens = "scope global secondary ".$ens;
+  }
+ }else {
+  if (str_contains($output[$i], $ens)) {
+    $vip = substr($output[$i], 0, strpos($output[$i], '/'));
+    $vip = str_replace('inet ', '', $vip) ;
+    echo $vip;
+    break 1;
+  }
+ }
+ $i++;
+}
    ?>
     <script src="./ssh_check_files/highcharts.js"></script>
     <script src="./ssh_check_files/exporting.js"></script>
