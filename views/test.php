@@ -133,7 +133,7 @@
                         filter="none" aria-hidden="true"></rect>
                     <g class="highcharts-label" transform="translate(20,320)" aria-hidden="true">
                         <rect fill="#FFC000" class="highcharts-label-box" x="0" y="0" width="136" height="66"></rect>
-                        <text x="3" data-z-index="1" y="44" style="color: white; fill: white;">VIP</text>
+                        <text x="42" data-z-index="1" y="44" style="color: white; fill: white;">VIP</text>
                     </g>
                     <g class="highcharts-label" transform="translate(25,290)" aria-hidden="true"><text x="3"
                             data-z-index="1" y="21"
@@ -142,7 +142,7 @@
                     <g class="highcharts-label" opacity="<?php echo $web1 ? "1" : "0.5" ?>"
                         transform="translate(300,100)" filter="url(#highcharts-drop-shadow-0)" aria-hidden="true">
                         <rect fill="#5B9BD5" class="highcharts-label-box" x="0" y="0" width="206" height="136"></rect>
-                        <text x="3" data-z-index="1" y="79" style="color: white; fill: white;">Web #1</text>
+                        <text x="50" data-z-index="1" y="79" style="color: white; fill: white;">Web #1</text>
                     </g>
                     <g class="highcharts-label" transform="translate(300,100)" aria-hidden="true">
                         <rect fill="#002060" class="highcharts-label-box" x="0" y="0" width="156" height="26"></rect>
@@ -152,7 +152,7 @@
                     <g class="highcharts-label" opacity="<?php echo $web2 ? "1" : "0.5" ?>"
                         transform="translate(300,500)" filter="url(#highcharts-drop-shadow-0)" aria-hidden="true">
                         <rect fill="#5B9BD5" class="highcharts-label-box" x="0" y="0" width="206" height="136"></rect>
-                        <text x="3" data-z-index="1" y="79" style="color: white; fill: white;">Web #2</text>
+                        <text x="50" data-z-index="1" y="79" style="color: white; fill: white;">Web #2</text>
                     </g>
                     <g class="highcharts-label" transform="translate(300,500)" aria-hidden="true">
                         <rect fill="#002060" class="highcharts-label-box" x="0" y="0" width="156" height="26"></rect>
@@ -191,7 +191,7 @@
                     <g class="highcharts-label" opacity="<?php echo $db1 ? "1" : "0.5" ?>"
                         transform="translate(865,100)" filter="url(#highcharts-drop-shadow-0)" aria-hidden="true">
                         <rect fill="#5B9BD5" class="highcharts-label-box" x="0" y="0" width="206" height="136"></rect>
-                        <text x="3" data-z-index="1" y="79" style="color: white; fill: white;">DB #1</text>
+                        <text x="55" data-z-index="1" y="79" style="color: white; fill: white;">DB #1</text>
                     </g>
                     <g class="highcharts-label" transform="translate(865,100)" aria-hidden="true">
                         <rect fill="#002060" class="highcharts-label-box" x="0" y="0" width="156" height="26"></rect>
@@ -201,7 +201,7 @@
                     <g class="highcharts-label" opacity="<?php echo $db2 ? "1" : "0.5" ?>"
                         transform="translate(865,500)" filter="url(#highcharts-drop-shadow-0)" aria-hidden="true">
                         <rect fill="#5B9BD5" class="highcharts-label-box" x="0" y="0" width="206" height="136"></rect>
-                        <text x="3" data-z-index="1" y="79" style="color: white; fill: white;">DB #2</text>
+                        <text x="55" data-z-index="1" y="79" style="color: white; fill: white;">DB #2</text>
                     </g>
                     <g class="highcharts-label" transform="translate(865,500)" aria-hidden="true">
                         <rect fill="#002060" class="highcharts-label-box" x="0" y="0" width="156" height="26"></rect>
@@ -210,7 +210,7 @@
                     </g>
                     <g class="highcharts-label" transform="translate(650,320)" aria-hidden="true">
                         <rect fill="#FFC000" class="highcharts-label-box" x="0" y="0" width="76" height="36"></rect>
-                        <text x="3" data-z-index="1" y="24.5"
+                        <text x="22" data-z-index="1" y="24.5"
                             style="color: white; font-size: 20px; fill: white;">VIP</text>
                     </g>
                     <g class="highcharts-label" transform="translate(725,325)" aria-hidden="true"><text x="3"
@@ -228,7 +228,7 @@
                     <g class="highcharts-label" opacity="<?php echo $fs1 ? "1" : "0.5" ?>"
                         transform="translate(1365,100)" filter="url(#highcharts-drop-shadow-0)" aria-hidden="true">
                         <rect fill="#5B9BD5" class="highcharts-label-box" x="0" y="0" width="206" height="136"></rect>
-                        <text x="3" data-z-index="1" y="79" style="color: white; fill: white;">FS #1</text>
+                        <text x="55" data-z-index="1" y="79" style="color: white; fill: white;">FS #1</text>
                     </g>
                     <g class="highcharts-label" transform="translate(1365,100)" aria-hidden="true">
                         <rect fill="#002060" class="highcharts-label-box" x="0" y="0" width="156" height="26"></rect>
@@ -238,7 +238,7 @@
                     <g class="highcharts-label" opacity="<?php echo $fs2 ? "1" : "0.5" ?>"
                         transform="translate(1365,500)" filter="url(#highcharts-drop-shadow-0)" aria-hidden="true">
                         <rect fill="#5B9BD5" class="highcharts-label-box" x="0" y="0" width="206" height="136"></rect>
-                        <text x="3" data-z-index="1" y="79" style="color: white; fill: white;">FS #2</text>
+                        <text x="55" data-z-index="1" y="79" style="color: white; fill: white;">FS #2</text>
                     </g>
                     <g class="highcharts-label" transform="translate(1365,500)" aria-hidden="true">
                         <rect fill="#002060" class="highcharts-label-box" x="0" y="0" width="156" height="26"></rect>
@@ -247,7 +247,7 @@
                     </g>
                     <g class="highcharts-label" transform="translate(1150,370)" aria-hidden="true">
                         <rect fill="#FFC000" class="highcharts-label-box" x="0" y="0" width="76" height="36"></rect>
-                        <text x="3" data-z-index="1" y="24.5"
+                        <text x="22" data-z-index="1" y="24.5"
                             style="color: white; font-size: 20px; fill: white;">VIP</text>
                     </g>
                     <g class="highcharts-label" transform="translate(1225,375)" aria-hidden="true"><text x="3"
@@ -268,7 +268,7 @@
 
                     <text x="10" text-anchor="start" class="highcharts-title" data-z-index="4"
                         style="font-size: 16px; color: black; font-weight: bold; fill: black;" y="22"
-                        aria-hidden="true">Highcharts export server overview</text><text x="1120" text-anchor="middle"
+                        aria-hidden="true">Server Network Diagram</text><text x="1120" text-anchor="middle"
                         class="highcharts-subtitle" data-z-index="4"
                         style="color: rgb(102, 102, 102); font-size: 0.8em; fill: rgb(102, 102, 102);" y="54"
                         aria-hidden="true"></text><text x="10" text-anchor="start" class="highcharts-caption"
