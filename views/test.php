@@ -16,79 +16,76 @@
     <?php 
        	$web1 = false;
         $web2 = false;
-        $vip1 = '';
+        $vip1 = '172.16.15.113';
         $db1 = false;
         $db2 = false;
-        $vip2 = '';
+        $vip2 = '172.16.15.118';
         $fs1 = false;
         $fs2 = false;
-        $vip3 = '';
+        $vip3 = '172.16.15.120';
    
       	// vip1
-        $vip1 = getVipIp('172.16.13.39', 'ip a');
-        if($vip1) {
+        $webIp = getIp('172.16.15.113', 'ip a');
+        if($webIp == '172.16.13.39') {
         	$web1 = true;
         	$web2 = false;
-        } else {
-        	$vip1 = getVipIp('172.16.15.144', "sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh root@172.16.15.144 ip a");
-        	if($vip1) {
-        		$web1 = false;
-        		$web2 = true;
-        	}
+        }
+
+        if($webIp == '172.16.15.114') {
+        	$web1 = false;
+        	$web2 = true;
         }
         
         // vip2
-        $vip2 = getVipIp('172.16.15.116', "sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh root@172.16.15.116 ip a");
-        if($vip2) {
+        $dbIp = getIp('172.16.15.118', "sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh root@172.16.15.118 ip a");
+        if($dbIp == '172.16.15.116') {
         	$db1 = true;
         	$db2 = false;
-        } else {
-        	$vip2 = getVipIp('172.16.15.117', "sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh root@172.16.15.117 ip a");
-        	if($vip2) {
-        		$db1 = false;
-        		$db2 = true;
-        	}
+        }
+
+        if($dbIp == '172.16.15.114') {
+        	$db1 = false;
+        	$db2 = true;
         }
         
         // vip3
-        $vip3 = getVipIp('172.16.13.40', "sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh root@172.16.13.40 ip a");
-        if($vip3) {
+        $fsIp = getIp('172.16.15.120', "sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh root@172.16.15.120 ip a");
+        if($fsIp == '172.16.13.40') {
         	$fs1 = true;
         	$fs2 = false;
-        } else {
-        	$vip3 = getVipIp('172.16.15.124', "sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh root@172.16.15.124 ip a");
-        	if($vip1) {
-        		$fs1 = false;
-        		$fs2 = true;
-        	}
+        }
+
+        if($fsIp == '172.16.15.124') {
+        	$fs1 = false;
+        	$fs2 = true;
         }
         
-        function getVipIp ($ip, $code) {
+        function getIp ($vip, $code) {
         	$data = [];
         	
         	exec($code, $data);
             $length = count($data);
             $i= 0;
             $ens = '';
-            $vip = '';
+            $ip = '';
 
             while($i < $length) {
                 if($ens == '') {
-                    if (str_contains($data[$i], $ip)) {
+                    if (str_contains($data[$i], $vip)) {
                         $ens = strstr($data[$i], 'ens');
-                        $ens = "scope global secondary ".$ens;
+                        $ens = "scope global ".$ens;
                     }
                     }else {
                     if (str_contains($data[$i], $ens)) {
-                        $vip = substr($data[$i], 0, strpos($data[$i], '/'));
-                        $vip = str_replace('inet ', '', $vip) ;
-                        return $vip;
+                        $ip = substr($data[$i], 0, strpos($data[$i], '/'));
+                        $ip = str_replace('inet ', '', $ip) ;
+                        return $ip;
                         break 1;
                     }
                 }
                 $i++;
             }
-            return $vip;
+            return $ip;
         }
     ?>
     <script src="./ssh_check_files/highcharts.js"></script>
