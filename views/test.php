@@ -15,40 +15,45 @@
 
 <body>
     <?php 
-    $web1 = true;
-    $web2 = false;
-    $vip1 = '172.16.15.113';
-    $db1 = true;
-    $db2 = false;
-    $vip2 = '172.16.15.118';
-    $fs1 = true;
-    $fs2 = false;
-    $vip3 = '172.16.15.120';
+        $web1 = true;
+        $web2 = false;
+        $vip1 = '172.16.15.113';
+        $db1 = true;
+        $db2 = false;
+        $vip2 = '172.16.15.118';
+        $fs1 = true;
+        $fs2 = false;
+        $vip3 = '172.16.15.120';
+        $output = [];
+        // exec("sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh root@172.16.13.39 ip a", $output);
+        exec('ip a',$output);
+        $vip1 = getVipIp($output, '172.16.13.39');
+        
+        function getVipIp ($data, $ip) {
+            $length = count($data);
+            $i= 0;
+            $ens = '';
+            $vip = '';
 
-$output = '';
-// exec("sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh root@172.16.13.39 ip a", $output);
-exec('ip a',$output);
-$length = count($output);
-$i= 0;
-$ens = '';
-
-while($i < $length) {
- if($ens == '') {
-   if (str_contains($output[$i], '172.16.13.39')) {
-    $ens = strstr($output[$i], 'ens');
-    $ens = "scope global secondary ".$ens;
-  }
- }else {
-  if (str_contains($output[$i], $ens)) {
-    $vip = substr($output[$i], 0, strpos($output[$i], '/'));
-    $vip = str_replace('inet ', '', $vip) ;
-    echo $vip;
-    break 1;
-  }
- }
- $i++;
-}
-   ?>
+            while($i < $length) {
+                if($ens == '') {
+                    if (str_contains($data[$i], $ip)) {
+                        $ens = strstr($data[$i], 'ens');
+                        $ens = "scope global secondary ".$ens;
+                    }
+                    }else {
+                    if (str_contains($data[$i], $ens)) {
+                        $vip = substr($data[$i], 0, strpos($data[$i], '/'));
+                        $vip = str_replace('inet ', '', $vip) ;
+                        return $vip;
+                        break 1;
+                    }
+                }
+                $i++;
+            }
+            return $vip;
+        }
+    ?>
     <script src="./ssh_check_files/highcharts.js"></script>
     <script src="./ssh_check_files/exporting.js"></script>
     <script src="./ssh_check_files/accessibility.js"></script>
