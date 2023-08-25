@@ -14,6 +14,7 @@
 
 <body>
     <?php 
+    	$webIp = '';
        	$web1 = false;
         $web2 = false;
         $vip1 = '172.16.15.113';
@@ -26,36 +27,37 @@
    
       	// vip1
         $webIp = getIp('172.16.15.113', 'ip a');
-        if($webIp == '172.16.13.39') {
+        
+        if(strcmp($webIp, '172.16.13.39') == 0) {
         	$web1 = true;
-        	$web2 = false;
-        }
+        	$web2 = false;    
+       	} 
 
-        if($webIp == '172.16.15.114') {
+        if(strcmp($webIp, '172.16.15.114') == 0) {
         	$web1 = false;
         	$web2 = true;
         }
         
         // vip2
         $dbIp = getIp('172.16.15.118', "sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh root@172.16.15.118 ip a");
-        if($dbIp == '172.16.15.116') {
+        if(strcmp($dbIp, '172.16.15.116') == 0) {
         	$db1 = true;
         	$db2 = false;
         }
 
-        if($dbIp == '172.16.15.114') {
+        if(strcmp($dbIp, '172.16.15.117') == 0) {
         	$db1 = false;
         	$db2 = true;
         }
         
         // vip3
         $fsIp = getIp('172.16.15.120', "sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh root@172.16.15.120 ip a");
-        if($fsIp == '172.16.13.40') {
+        if(strcmp($fsIp, '172.16.13.40') == 0) {
         	$fs1 = true;
         	$fs2 = false;
         }
 
-        if($fsIp == '172.16.15.124') {
+        if(strcmp($fsIp, '172.16.15.124') == 0) {
         	$fs1 = false;
         	$fs2 = true;
         }
@@ -74,11 +76,13 @@
                     if (str_contains($data[$i], $vip)) {
                         $ens = strstr($data[$i], 'ens');
                         $ens = "scope global ".$ens;
+                        $i= 0;
                     }
                     }else {
                     if (str_contains($data[$i], $ens)) {
                         $ip = substr($data[$i], 0, strpos($data[$i], '/'));
                         $ip = str_replace('inet ', '', $ip) ;
+                        $ip = str_replace(' ', '', $ip) ;
                         return $ip;
                         break 1;
                     }
