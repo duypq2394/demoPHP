@@ -1,467 +1,304 @@
 <!DOCTYPE html>
-<!-- saved from url=(0033)http://172.20.0.178/ssh_check.php -->
 <html lang="ja">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>
-
+        Server Network Diagram
     </title>
-
-
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 </head>
 
 <body>
     <?php 
-    $web1 = true;
-    $web2 = false;
-    $vip1 = '172.16.15.113';
-    $db1 = true;
-    $db2 = false;
-    $vip2 = '172.16.15.118';
-    $fs1 = true;
-    $fs2 = false;
-    $vip3 = '172.16.15.120';
+    	$webIp = '';
+       	$web1 = false;
+        $web2 = false;
+        $vip1 = '172.16.15.113';
+        $db1 = false;
+        $db2 = false;
+        $vip2 = '172.16.15.118';
+        $fs1 = false;
+        $fs2 = false;
+        $vip3 = '172.16.15.120';
+   
+      	// vip1
+        $webIp = getIp('172.16.15.113', 'ip a');
+        
+        if(strcmp($webIp, '172.16.13.39') == 0) {
+        	$web1 = true;
+        	$web2 = false;    
+       	} 
+
+        if(strcmp($webIp, '172.16.15.114') == 0) {
+        	$web1 = false;
+        	$web2 = true;
+        }
+        
+        // vip2
+        $dbIp = getIp('172.16.15.118', "sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh root@172.16.15.118 ip a");
+        if(strcmp($dbIp, '172.16.15.116') == 0) {
+        	$db1 = true;
+        	$db2 = false;
+        }
+
+        if(strcmp($dbIp, '172.16.15.117') == 0) {
+        	$db1 = false;
+        	$db2 = true;
+        }
+        
+        // vip3
+        $fsIp = getIp('172.16.15.120', "sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh root@172.16.15.120 ip a");
+        if(strcmp($fsIp, '172.16.13.40') == 0) {
+        	$fs1 = true;
+        	$fs2 = false;
+        }
+
+        if(strcmp($fsIp, '172.16.15.124') == 0) {
+        	$fs1 = false;
+        	$fs2 = true;
+        }
+        
+        function getIp ($vip, $code) {
+        	$data = [];
+        	
+        	exec($code, $data);
+            $length = count($data);
+            $i= 0;
+            $ens = '';
+            $ip = '';
+
+            while($i < $length) {
+                if($ens == '') {
+                    if (str_contains($data[$i], $vip)) {
+                        $ens = strstr($data[$i], 'ens');
+                        $ens = "scope global ".$ens;
+                        $i= 0;
+                    }
+                    }else {
+                    if (str_contains($data[$i], $ens)) {
+                        $ip = substr($data[$i], 0, strpos($data[$i], '/'));
+                        $ip = str_replace('inet ', '', $ip) ;
+                        $ip = str_replace(' ', '', $ip) ;
+                        return $ip;
+                        break 1;
+                    }
+                }
+                $i++;
+            }
+            return $ip;
+        }
     ?>
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/modules/exporting.js"></script>
-    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="./ssh_check_files/highcharts.js"></script>
+    <script src="./ssh_check_files/exporting.js"></script>
+    <script src="./ssh_check_files/accessibility.js"></script>
 
     <figure class="highcharts-figure">
-        <div id="container"></div>
+        <div id="container" data-highcharts-chart="0" aria-hidden="false" role="region" style="overflow: auto;">
+            <div aria-hidden="false" class="highcharts-announcer-container" style="position: relative;">
+                <div aria-hidden="false" aria-live="polite"
+                    style="position: absolute; width: 1px; height: 1px; overflow: hidden; white-space: nowrap; clip: rect(1px, 1px, 1px, 1px); margin-top: -3px; opacity: 0.01;">
+                </div>
+                <div aria-hidden="false" aria-live="assertive"
+                    style="position: absolute; width: 1px; height: 1px; overflow: hidden; white-space: nowrap; clip: rect(1px, 1px, 1px, 1px); margin-top: -3px; opacity: 0.01;">
+                </div>
+                <div aria-hidden="false" aria-live="polite"
+                    style="position: absolute; width: 1px; height: 1px; overflow: hidden; white-space: nowrap; clip: rect(1px, 1px, 1px, 1px); margin-top: -3px; opacity: 0.01;">
+                </div>
+            </div>
+            <div id="highcharts-0nkie92-0" dir="ltr"
+                style="position: relative; overflow: hidden; width: 2240px; height: 1000px; text-align: left; line-height: normal; z-index: 0; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); user-select: none; touch-action: manipulation; outline: none; font-size: 30px;"
+                class="highcharts-container " aria-hidden="false" tabindex="0">
+                <div aria-hidden="false" class="highcharts-a11y-proxy-container-before"
+                    style="top: 0px; left: 0px; white-space: nowrap; position: absolute;"></div><svg version="1.1"
+                    class="highcharts-root" style="font-family: Helvetica, Arial, sans-serif; font-size: 30px;"
+                    width="2240" height="1000" viewBox="0 0 2240 1000" aria-hidden="false"
+                    aria-label="Interactive chart">
+                    <defs>
+                        <pattern id="image" patternUnits="userSpaceOnUse" width="150" height="150">
+                            <image width="150" height="150" xlink:href="./test1.png"></image>
+                        </pattern>
+                    </defs>
+                    <g class="highcharts-label" transform="translate(10,250)" aria-hidden="true">
+                        <rect x="0" y="0" width="150" height="150" fill="url('#image')" />
+                    </g>
+                    <g class="highcharts-label" transform="translate(213,332)" aria-hidden="true">
+                        <rect fill="#FFC000" class="highcharts-label-box" x="0" y="0" width="80" height="36"></rect>
+                        <text x="22" data-z-index="1" y="24.5"
+                            style="color: white; font-size: 20px; fill: white;">VIP</text>
+                    </g>
+                    <g class="highcharts-label" transform="translate(183,300)" aria-hidden="true"><text x="3"
+                            data-z-index="1" y="21"
+                            style="color: black; font-size: 20px; fill: black;"><?php echo $vip1 ?></text></g>
+                    <g class="highcharts-label" opacity="<?php echo $web1 ? "1" : "0.5" ?>"
+                        transform="translate(393,100)" filter="url(#highcharts-drop-shadow-0)" aria-hidden="true">
+                        <rect fill="#5B9BD5" class="highcharts-label-box" x="0" y="0" width="206" height="136"></rect>
+                        <text x="50" data-z-index="1" y="79" style="color: white; fill: white;">Web #1</text>
+                    </g>
+                    <g class="highcharts-label" transform="translate(393,100)" aria-hidden="true">
+                        <rect fill="#002060" class="highcharts-label-box" x="0" y="0" width="156" height="26"></rect>
+                        <text x="3" data-z-index="1" y="19.5"
+                            style="color: white; font-size: 20px; fill: white;">172.16.13.39</text>
+                    </g>
+                    <g class="highcharts-label" opacity="<?php echo $web2 ? "1" : "0.5" ?>"
+                        transform="translate(393,500)" filter="url(#highcharts-drop-shadow-0)" aria-hidden="true">
+                        <rect fill="#5B9BD5" class="highcharts-label-box" x="0" y="0" width="206" height="136"></rect>
+                        <text x="50" data-z-index="1" y="79" style="color: white; fill: white;">Web #2</text>
+                    </g>
+                    <g class="highcharts-label" transform="translate(393,500)" aria-hidden="true">
+                        <rect fill="#002060" class="highcharts-label-box" x="0" y="0" width="156" height="26"></rect>
+                        <text x="3" data-z-index="1" y="19.5"
+                            style="color: white; font-size: 20px; fill: white;">172.16.15.114</text>
+                    </g>
+                    <path fill="none" d="M 157 352 L 213 352" stroke-width="3" stroke="red" stroke-dasharray="12,9"
+                        aria-hidden="true"></path>
+                    <?php if ($web1) { ?>
+                    <!-- Arrow from VIP1 to Web -->
+                    <!-- <path fill="none" d="M 157 352 L 157 352 L 157 352 L 650 352" stroke-width="3" stroke="#C55A11"
+                        aria-hidden="true"></path> -->
+                    <path fill="none" d="M 343 352 L 343 170 L 393 170 M 343 352 L 293 352" stroke-width="3"
+                        stroke="red" aria-hidden="true"></path>
+                    <!-- Arrow from web to vip2 -->
+                    <path fill="none" d="M 649 174 L 649 352 L 649 352 L 699 352 M 649 175 L 599 175" stroke-width="3"
+                        stroke="#C55A11" aria-hidden="true"></path>
+                    <?php } ?>
+                    <?php if ($web2) { ?>
+                    <!-- Arrow from VIP1 to Web -->
+                    <!-- <path fill="none" d="M 157 352 L 365 575" stroke-width="3" stroke="red" aria-hidden="true"></path> -->
+                    <path fill="none" d="M 343 352 L 343 575 L 393 575 M 343 352 L 293 352" stroke-width="3"
+                        stroke="red" aria-hidden="true"></path>
+                    <!-- Arrow from web to vip2 -->
+                    <path fill="none" d="M 649 570 L 649 352 L 649 352 L 699 352 M 649 570 L 599 570" stroke-width="3"
+                        stroke="#C55A11" aria-hidden="true"></path>
+                    <?php } ?>
+                    <g class="highcharts-label" opacity="<?php echo $db1 ? "1" : "0.5" ?>"
+                        transform="translate(879,100)" filter="url(#highcharts-drop-shadow-0)" aria-hidden="true">
+                        <rect fill="#5B9BD5" class="highcharts-label-box" x="0" y="0" width="206" height="136"></rect>
+                        <text x="55" data-z-index="1" y="79" style="color: white; fill: white;">DB #1</text>
+                    </g>
+                    <g class="highcharts-label" transform="translate(879,100)" aria-hidden="true">
+                        <rect fill="#002060" class="highcharts-label-box" x="0" y="0" width="156" height="26"></rect>
+                        <text x="3" data-z-index="1" y="19.5"
+                            style="color: white; font-size: 20px; fill: white;">172.16.15.116</text>
+                    </g>
+                    <g class="highcharts-label" opacity="<?php echo $db2 ? "1" : "0.5" ?>"
+                        transform="translate(879,500)" filter="url(#highcharts-drop-shadow-0)" aria-hidden="true">
+                        <rect fill="#5B9BD5" class="highcharts-label-box" x="0" y="0" width="206" height="136"></rect>
+                        <text x="55" data-z-index="1" y="79" style="color: white; fill: white;">DB #2</text>
+                    </g>
+                    <g class="highcharts-label" transform="translate(879,500)" aria-hidden="true">
+                        <rect fill="#002060" class="highcharts-label-box" x="0" y="0" width="156" height="26"></rect>
+                        <text x="3" data-z-index="1" y="19.5"
+                            style="color: white; font-size: 20px; fill: white;">172.16.15.117</text>
+                    </g>
+                    <g class="highcharts-label" transform="translate(699,332)" aria-hidden="true">
+                        <rect fill="#FFC000" class="highcharts-label-box" x="0" y="0" width="80" height="36"></rect>
+                        <text x="22" data-z-index="1" y="24.5"
+                            style="color: white; font-size: 20px; fill: white;">VIP</text>
+                    </g>
+                    <g class="highcharts-label" transform="translate(671,300)" aria-hidden="true"><text x="3"
+                            data-z-index="1" y="21"
+                            style="color: black; font-size: 20px; fill: black;"><?php echo $vip2 ?></text></g>
+
+                    <?php if ($db1) { ?>
+                    <!-- <path fill="none" d="M 690 332 L 690 170 L 865 170" stroke-width="3" stroke="#C55A11"
+                        aria-hidden="true"></path> -->
+                    <path fill="none" d="M 829 352 L 829 170 L 879 170 M 829 352 L 779 352" stroke-width="3"
+                        stroke="#C55A11" aria-hidden="true"></path>
+                    <!-- Arrow from db to vip3 -->
+                    <path fill="none" d="M 1135 174 L 1135 352 L 1135 352 L 1185 352 M 1135 175 L 1085 175"
+                        stroke-width="3" stroke="#BF9000" aria-hidden="true"></path>
+                    <?php } ?>
+                    <?php if ($db2) { ?>
+                    <!-- <path fill="none" d="M 690 367 L 690 570 L 865 570" stroke-width="3" stroke="#C55A11"
+                        aria-hidden="true"></path> -->
+                    <path fill="none" d="M 829 352 L 829 570 L 879 570 M 829 352 L 779 352" stroke-width="3"
+                        stroke="#C55A11" aria-hidden="true"></path>
+                    <!-- Arrow from db to vip3 -->
+                    <path fill="none" d="M 1135 570 L 1135 352 L 1135 352 L 1185 352 M 1135 570 L 1085 570"
+                        stroke-width="3" stroke="#BF9000" aria-hidden="true"></path>
+                    <?php } ?>
+
+                    <g class="highcharts-label" opacity="<?php echo $fs1 ? "1" : "0.5" ?>"
+                        transform="translate(1365,100)" filter="url(#highcharts-drop-shadow-0)" aria-hidden="true">
+                        <rect fill="#5B9BD5" class="highcharts-label-box" x="0" y="0" width="206" height="136"></rect>
+                        <text x="55" data-z-index="1" y="79" style="color: white; fill: white;">FS #1</text>
+                    </g>
+                    <g class="highcharts-label" transform="translate(1365,100)" aria-hidden="true">
+                        <rect fill="#002060" class="highcharts-label-box" x="0" y="0" width="156" height="26"></rect>
+                        <text x="3" data-z-index="1" y="19.5"
+                            style="color: white; font-size: 20px; fill: white;">172.16.13.40</text>
+                    </g>
+                    <g class="highcharts-label" opacity="<?php echo $fs2 ? "1" : "0.5" ?>"
+                        transform="translate(1365,500)" filter="url(#highcharts-drop-shadow-0)" aria-hidden="true">
+                        <rect fill="#5B9BD5" class="highcharts-label-box" x="0" y="0" width="206" height="136"></rect>
+                        <text x="55" data-z-index="1" y="79" style="color: white; fill: white;">FS #2</text>
+                    </g>
+                    <g class="highcharts-label" transform="translate(1365,500)" aria-hidden="true">
+                        <rect fill="#002060" class="highcharts-label-box" x="0" y="0" width="156" height="26"></rect>
+                        <text x="3" data-z-index="1" y="19.5"
+                            style="color: white; font-size: 20px; fill: white;">172.16.15.124</text>
+                    </g>
+                    <g class="highcharts-label" transform="translate(1185,332)" aria-hidden="true">
+                        <rect fill="#FFC000" class="highcharts-label-box" x="0" y="0" width="80" height="36"></rect>
+                        <text x="22" data-z-index="1" y="24.5"
+                            style="color: white; font-size: 20px; fill: white;">VIP</text>
+                    </g>
+                    <g class="highcharts-label" transform="translate(1155,300)" aria-hidden="true"><text x="3"
+                            data-z-index="1" y="21"
+                            style="color: black; font-size: 20px; fill: black;"><?php echo $vip3 ?></text></g>
+
+                    <?php if ($fs1) { ?>
+                    <!-- <path fill="none" d="M 1190 332 L 1190 175 L 1365 175" stroke-width="3" stroke="#BF9000"
+                        aria-hidden="true"></path> -->
+                    <path fill="none" d="M 1315 352 L 1315 175 L 1365 175 M 1315 352 L 1265 352" stroke-width="3"
+                        stroke="#BF9000" aria-hidden="true"></path>
+                    <?php } ?>
+                    <?php if ($fs2) { ?>
+                    <!-- <path fill="none" d="M 1190 367 L 1190 570 L 1365 570" stroke-width="3" stroke="#BF9000"
+                        aria-hidden="true"></path> -->
+                    <path fill="none" d="M 1315 352 L 1315 570 L 1365 570 M 1315 352 L 1265 352" stroke-width="3"
+                        stroke="#BF9000" aria-hidden="true"></path>
+                    <?php } ?>
+
+                    <rect fill="none" class="highcharts-plot-border" data-z-index="1" stroke="#cccccc" stroke-width="0"
+                        x="10" y="44" width="2220" height="941" aria-hidden="true"></rect>
+                    <g class="highcharts-series-group" data-z-index="3" filter="none" aria-hidden="true"></g>
+
+                    <text x="10" text-anchor="start" class="highcharts-title" data-z-index="4"
+                        style="font-size: 16px; color: black; font-weight: bold; fill: black;" y="22"
+                        aria-hidden="true">Server Network Diagram</text><text x="1120" text-anchor="middle"
+                        class="highcharts-subtitle" data-z-index="4"
+                        style="color: rgb(102, 102, 102); font-size: 0.8em; fill: rgb(102, 102, 102);" y="54"
+                        aria-hidden="true"></text><text x="10" text-anchor="start" class="highcharts-caption"
+                        data-z-index="4" style="color: rgb(102, 102, 102); font-size: 0.8em; fill: rgb(102, 102, 102);"
+                        y="1008" aria-hidden="true"></text>
+                </svg>
+
+            </div>
+        </div>
     </figure>
 
+    <style>
+    body {
+        width: 100%;
+        overflow-x: hidden;
+        overflow-y: hidden;
+    }
 
+    #container {
+        width: 100%;
+        height: 100%;
+        margin: 25px;
+    }
+
+    .highcharts-figure,
+    .highcharts-data-table table {
+        min-width: 310px;
+        max-width: 100vw;
+        margin: 1em auto;
+    }
+    </style>
 </body><!-- custom styles -->
 
 </html>
-<style>
-#container {
-    width: 100vw;
-    height: 1000px;
-    margin: 1em auto;
-}
-
-.highcharts-figure,
-.highcharts-data-table table {
-    min-width: 310px;
-    max-width: 100vw;
-    margin: 1em auto;
-}
-
-.highcharts-data-table table {
-    font-family: Verdana, sans-serif;
-    border-collapse: collapse;
-    border: 1px solid #ebebeb;
-    margin: 10px auto;
-    text-align: center;
-    width: 100%;
-    max-width: 90%;
-}
-
-.highcharts-data-table caption {
-    padding: 1em 0;
-    font-size: 1.2em;
-    color: #555;
-}
-
-.highcharts-data-table th {
-    font-weight: 10000;
-    padding: 0.5em;
-}
-
-.highcharts-data-table td,
-.highcharts-data-table th,
-.highcharts-data-table caption {
-    padding: 0.5em;
-}
-
-.highcharts-data-table thead tr,
-.highcharts-data-table tr:nth-child(even) {
-    background: #f8f8f8;
-}
-
-.highcharts-data-table tr:hover {
-    background: #f1f7ff;
-}
-</style>
-
-<!-- dataset -->
-<script type="text/javascript">
-var vip1 = <?php echo json_encode($vip1); ?>;
-var vip2 = <?php echo json_encode($vip2); ?>;
-var vip3 = <?php echo json_encode($vip3); ?>;
-var web1 = <?php echo json_encode($web1); ?>;
-var web2 = <?php echo json_encode($web2); ?>;
-var db1 = <?php echo json_encode($db1); ?>;
-var db2 = <?php echo json_encode($db2); ?>;
-var fs1 = <?php echo json_encode($fs1); ?>;
-var fs2 = <?php echo json_encode($fs2); ?>;
-
-Highcharts.chart('container', {
-    chart: {
-        backgroundColor: 'white',
-        style: {
-            fontSize: '30px'
-        },
-        events: {
-            load: function() {
-
-                // Draw the flow chart
-                const ren = this.renderer,
-                    colors = Highcharts.getOptions().colors,
-                    rightArrow = ['M', 0, 0, 'L', 100, 0, 'L', 90, 10, 'M', 100, 0, 'L', 90, -10],
-                    leftArrow = ['M', 100, 0, 'L', 0, 0, 'L', 10, 10, 'M', 0, 0, 'L', 10, -10];
-
-                //VIP 1
-                ren.label('VIP', 20, 320)
-                    .attr({
-                        fill: '#FFC000',
-                        height: 60,
-                        width: 130
-                    })
-                    .css({
-                        color: 'white'
-                    })
-                    .add()
-                ren.label(vip1, 25, 290)
-                    .css({
-                        color: colors[3],
-                        fontSize: '20px'
-                    })
-                    .add();
-                // Web1
-                ren.label('Web #1', 300, 100)
-                    .attr({
-                        fill: '#5B9BD5',
-                        height: 130,
-                        width: 200,
-                        opacity: web1 ? 1 : 0.5
-                    })
-                    .css({
-                        color: 'white'
-                    })
-                    .add()
-                    .shadow(true);
-                ren.label('172.16.13.39', 300, 100)
-                    .attr({
-                        fill: '#002060',
-                        height: 20,
-                        width: 150
-                    })
-                    .css({
-                        color: 'white',
-                        fontSize: '20px'
-                    })
-                    .add()
-                // Web2
-                ren.label('Web #2', 300, 500)
-                    .attr({
-                        fill: '#5B9BD5',
-                        height: 130,
-                        width: 200,
-                        opacity: web2 ? 1 : 0.5
-                    })
-                    .css({
-                        color: 'white'
-                    })
-                    .add()
-                    .shadow(true);
-                ren.label('172.16.13.39', 300, 500)
-                    .attr({
-                        fill: '#002060',
-                        height: 20,
-                        width: 150
-                    })
-                    .css({
-                        color: 'white',
-                        fontSize: '20px'
-                    })
-                    .add()
-                // Arrow from VIP1 to Web
-                if (vip1) {
-                    if (web1) {
-                        // Arrow from VIP1 to Web
-                        ren.path(['M', 157, 352, 'L', 300, 175])
-                            .attr({
-                                'stroke-width': 3,
-                                stroke: 'red',
-                            })
-                            .add();
-                        // Arrow from web to vip2
-                        if (vip2) {
-                            ren.path([
-                                    'M', 480, 235,
-                                    'L', 480, 340, 480, 340, 650, 340,
-
-                                ])
-                                .attr({
-                                    'stroke-width': 3,
-                                    stroke: '#C55A11'
-                                })
-                                .add();
-                        }
-
-                        // Arrow from web to vip3
-                        if (vip3) {
-                            ren.path([
-                                    'M', 450, 235,
-                                    'L', 450, 390, 480, 390, 1150, 390,
-
-                                ])
-                                .attr({
-                                    'stroke-width': 3,
-                                    stroke: '#BF9000'
-                                })
-                                .add();
-                        }
-                    } else {
-                        // Arrow from VIP1 to Web
-                        ren.path(['M', 157, 352, 'L', 300, 575])
-                            .attr({
-                                'stroke-width': 3,
-                                stroke: 'silver',
-                                dashstyle: 'dash'
-                            })
-                            .add();
-                        // Arrow from web to vip2
-                        if (vip2) {
-                            ren.path([
-                                    'M', 480, 500,
-                                    'L', 480, 340, 480, 340, 650, 340,
-
-                                ])
-                                .attr({
-                                    'stroke-width': 3,
-                                    stroke: '#C55A11',
-                                    dashstyle: 'dash'
-                                })
-                                .add();
-                        }
-
-                        // Arrow from web to vip3
-                        if (vip3) {
-                            ren.path([
-                                    'M', 450, 500,
-                                    'L', 450, 390, 480, 390, 1150, 390,
-
-                                ])
-                                .attr({
-                                    'stroke-width': 3,
-                                    stroke: '#BF9000',
-                                    dashstyle: 'dash'
-                                })
-                                .add();
-                        }
-                    }
-                }
-
-                // Data 1
-                ren.label('DB #1', 865, 100)
-                    .attr({
-                        fill: '#5B9BD5',
-                        height: 130,
-                        width: 200,
-                        opacity: db1 ? 1 : 0.5
-                    })
-                    .css({
-                        color: 'white'
-                    })
-                    .add()
-                    .shadow(true);
-                ren.label('172.16.13.39', 865, 100)
-                    .attr({
-                        fill: '#002060',
-                        height: 20,
-                        width: 150
-                    })
-                    .css({
-                        color: 'white',
-                        fontSize: '20px'
-                    })
-                    .add()
-                // Data 2
-                ren.label('DB #2', 865, 500)
-                    .attr({
-                        fill: '#5B9BD5',
-                        height: 130,
-                        width: 200,
-                        opacity: db2 ? 1 : 0.5
-                    })
-                    .css({
-                        color: 'white'
-                    })
-                    .add()
-                    .shadow(true);
-                ren.label('172.16.13.39', 865, 500)
-                    .attr({
-                        fill: '#002060',
-                        height: 20,
-                        width: 150
-                    })
-                    .css({
-                        color: 'white',
-                        fontSize: '20px'
-                    })
-                    .add()
-                //VIP 2
-                ren.label('VIP', 650, 320)
-                    .attr({
-                        fill: '#FFC000',
-                        height: 30,
-                        width: 70,
-                    })
-                    .css({
-                        color: 'white',
-                        fontSize: '20px'
-                    })
-                    .add()
-                ren.label(vip2, 725, 325)
-                    .css({
-                        color: 'black',
-                        fontSize: '20px'
-                    })
-                    .add();
-                /////////////////////////////
-                if ((vip1) && (db1 || db2)) {
-                    if (db1) {
-                        ren.path([
-                                'M', 690, 320,
-                                'L', 690, 170, 865, 170
-
-                            ])
-                            .attr({
-                                'stroke-width': 3,
-                                stroke: '#C55A11'
-                            })
-                            .add();
-                    } else {
-                        ren.path([
-                                'M', 690, 355,
-                                'L', 690, 570, 865, 570
-
-                            ])
-                            .attr({
-                                'stroke-width': 3,
-                                stroke: '#C55A11',
-                                dashstyle: 'dash'
-                            })
-                            .add();
-                    }
-                }
-
-
-                ///////////////////////////
-
-                // FS#1
-                ren.label('FS #1', 1365, 100)
-                    .attr({
-                        fill: '#5B9BD5',
-                        height: 130,
-                        width: 200,
-                        opacity: fs1 ? 1 : 0.5
-                    })
-                    .css({
-                        color: 'white'
-                    })
-                    .add()
-                    .shadow(true);
-                ren.label('172.16.13.39', 1365, 100)
-                    .attr({
-                        fill: '#002060',
-                        height: 20,
-                        width: 150
-                    })
-                    .css({
-                        color: 'white',
-                        fontSize: '20px'
-                    })
-                    .add()
-                // FS 2
-                ren.label('FS #2', 1365, 500)
-                    .attr({
-                        fill: '#5B9BD5',
-                        height: 130,
-                        width: 200,
-                        opacity: fs2 ? 1 : 0.5
-                    })
-                    .css({
-                        color: 'white'
-                    })
-                    .add()
-                    .shadow(true);
-                ren.label('172.16.13.39', 1365, 500)
-                    .attr({
-                        fill: '#002060',
-                        height: 20,
-                        width: 150
-                    })
-                    .css({
-                        color: 'white',
-                        fontSize: '20px'
-                    })
-                    .add()
-                //VIP 2
-                ren.label('VIP', 1150, 370)
-                    .attr({
-                        fill: '#FFC000',
-                        height: 30,
-                        width: 70,
-                    })
-                    .css({
-                        color: 'white',
-                        fontSize: '20px'
-                    })
-                    .add()
-                ren.label(vip3, 1225, 375)
-                    .css({
-                        color: 'black',
-                        fontSize: '20px'
-                    })
-                    .add();
-                /////////////////////////////
-                if ((vip1) && (fs1 || fs2)) {
-                    if (fs1) {
-                        ren.path([
-                                'M', 1190, 370,
-                                'L', 1190, 175, 1365, 175
-
-                            ])
-                            .attr({
-                                'stroke-width': 3,
-                                stroke: '#BF9000'
-                            })
-                            .add();
-                    } else {
-                        ren.path([
-                                'M', 1190, 405,
-                                'L', 1190, 570, 1365, 570
-                            ])
-                            .attr({
-                                'stroke-width': 3,
-                                stroke: '#BF9000',
-                                dashstyle: 'dash'
-                            })
-                            .add();
-                    }
-                }
-
-                ///////////////////////////
-            }
-        }
-    },
-    title: {
-        text: 'Highcharts export server overview',
-        style: {
-            color: 'black',
-            fontSize: '16px'
-        },
-        align: 'left'
-    },
-    accessibility: {
-        typeDescription: 'Flowchart'
-    }
-
-});
-</script>
