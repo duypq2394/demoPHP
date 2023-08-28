@@ -116,7 +116,7 @@
                     aria-label="Interactive chart">
                     <defs>
                         <pattern id="image" patternUnits="userSpaceOnUse" width="150" height="150">
-                            <image width="150" height="150" xlink:href="./test1.png"></image>
+                            <image width="150" height="150" xlink:href="./ssh_check_files/user.png"></image>
                         </pattern>
                     </defs>
                     <g class="highcharts-label" transform="translate(10,250)" aria-hidden="true">
