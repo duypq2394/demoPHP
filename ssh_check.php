@@ -33,3 +33,4 @@ sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh -o UserKnownHostsFile=/dev/null
                         <text x="3" data-z-index="1" y="126"
                             style="color: white; font-size: 15px; fill: white;">nfs-server</text>
                     </g>
+sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@[固定IP②] /etc/keepalived/chk_mariadb.sh
