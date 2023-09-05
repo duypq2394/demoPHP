@@ -16,6 +16,7 @@ Web1からチェック：10.79.32.112
 NFS(nfs-server)は、起動していること
 sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@[固定IP①] /etc/keepalived/chk_nfs-server.sh
 
+sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@[固定IP②] systemctl is-active keepalived
 <g class="highcharts-label" opacity="<?php echo $web1 ? "1" : "0.5" ?>"
                         transform="translate(393,240)" filter="url(#highcharts-drop-shadow-0)" aria-hidden="true">
                         <rect fill="#5B9BD5" class="highcharts-label-box" x="0" y="0" width="206" height="132"></rect>
