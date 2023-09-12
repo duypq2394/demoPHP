@@ -191,8 +191,8 @@
                             style="color: white; font-size: 20px; fill: white;">172.16.13.39</text>
                     </g>
 
-                    <g class="highcharts-label" opacity="0.5" transform="translate(393,240)"
-                        filter="url(#highcharts-drop-shadow-0)" aria-hidden="true">
+                    <g class="highcharts-label" opacity="<?php echo $web1 ? "1" : "0.5" ?>"
+                        transform="translate(393,240)" filter="url(#highcharts-drop-shadow-0)" aria-hidden="true">
                         <rect fill="#5B9BD5" class="highcharts-label-box" x="0" y="0" width="206" height="132"></rect>
                         <rect fill="<?php echo $web1 || $activeListWeb1[0] ? "#5B9BD5" : "red" ?>"
                             class="highcharts-label-box" x="0" y="0" width="206" height="22"></rect>
@@ -236,8 +236,8 @@
                             style="color: white; font-size: 20px; fill: white;">172.16.15.114</text>
                     </g>
 
-                    <g class="highcharts-label" opacity="0.5" transform="translate(393,640)"
-                        filter="url(#highcharts-drop-shadow-0)" aria-hidden="true">
+                    <g class="highcharts-label" opacity="<?php echo $web2 ? "1" : "0.5" ?>"
+                        transform="translate(393,640)" filter="url(#highcharts-drop-shadow-0)" aria-hidden="true">
                         <rect fill="#5B9BD5" class="highcharts-label-box" x="0" y="0" width="206" height="132"></rect>
                         <rect fill="<?php echo $web2 || $activeListWeb2[0] ? "#5B9BD5" : "red" ?>"
                             class="highcharts-label-box" x="0" y="0" width="206" height="22"></rect>
@@ -303,20 +303,18 @@
                             style="color: white; font-size: 20px; fill: white;">172.16.15.116</text>
                     </g>
 
-                    <?php if (!$db1) { ?>
-                    <g class="highcharts-label" opacity="0.5" transform="translate(879,240)"
-                        filter="url(#highcharts-drop-shadow-0)" aria-hidden="true">
+                    <g class="highcharts-label" opacity="<?php echo $db1 ? "1" : "0.5" ?>"
+                        transform="translate(879,240)" filter="url(#highcharts-drop-shadow-0)" aria-hidden="true">
                         <rect fill="#5B9BD5" class="highcharts-label-box" x="0" y="0" width="206" height="44"></rect>
-                        <rect fill="<?php echo $dbActive1[0] ? "#5B9BD5" : "red" ?>" class="highcharts-label-box" x="0"
-                            y="0" width="206" height="22"></rect>
-                        <rect fill="<?php echo $dbActive1[1] ? "#5B9BD5" : "red" ?>" class="highcharts-label-box" x="0"
-                            y="22" width="206" height="22"></rect>
+                        <rect fill="<?php echo $db1 || $dbActive1[0] ? "#5B9BD5" : "red" ?>"
+                            class="highcharts-label-box" x="0" y="0" width="206" height="22"></rect>
+                        <rect fill="<?php echo $db1 || $dbActive1[1] ? "#5B9BD5" : "red" ?>"
+                            class="highcharts-label-box" x="0" y="22" width="206" height="22"></rect>
                         <text x="3" data-z-index="1" y="15"
                             style="color: white; font-size: 15px; fill: white;">keepalived</text>
                         <text x="3" data-z-index="1" y="37"
                             style="color: white; font-size: 15px; fill: white;">mariadb</text>
                     </g>
-                    <?php } ?>
 
                     <g class="highcharts-label" opacity="<?php echo $db2 ? "1" : "0.5" ?>"
                         transform="translate(879,500)" filter="url(#highcharts-drop-shadow-0)" aria-hidden="true">
@@ -330,20 +328,18 @@
                             style="color: white; font-size: 20px; fill: white;">172.16.15.117</text>
                     </g>
 
-                    <?php if (!$db2) { ?>
-                    <g class="highcharts-label" opacity="0.5" transform="translate(879,640)"
-                        filter="url(#highcharts-drop-shadow-0)" aria-hidden="true">
+                    <g class="highcharts-label" opacity="<?php echo $db2 ? "1" : "0.5" ?>"
+                        transform="translate(879,640)" filter="url(#highcharts-drop-shadow-0)" aria-hidden="true">
                         <rect fill="#5B9BD5" class="highcharts-label-box" x="0" y="0" width="206" height="44"></rect>
-                        <rect fill="<?php echo $dbActive2[0] ? "#5B9BD5" : "red" ?>" class="highcharts-label-box" x="0"
-                            y="0" width="206" height="22"></rect>
-                        <rect fill="<?php echo $dbActive2[1] ? "#5B9BD5" : "red" ?>" class="highcharts-label-box" x="0"
-                            y="22" width="206" height="22"></rect>
+                        <rect fill="<?php echo $db1 || $dbActive2[0] ? "#5B9BD5" : "red" ?>"
+                            class="highcharts-label-box" x="0" y="0" width="206" height="22"></rect>
+                        <rect fill="<?php echo $db1 || $dbActive2[1] ? "#5B9BD5" : "red" ?>"
+                            class="highcharts-label-box" x="0" y="22" width="206" height="22"></rect>
                         <text x="3" data-z-index="1" y="15"
                             style="color: white; font-size: 15px; fill: white;">keepalived</text>
                         <text x="3" data-z-index="1" y="37"
                             style="color: white; font-size: 15px; fill: white;">mariadb</text>
                     </g>
-                    <?php } ?>
 
                     <g class="highcharts-label" transform="translate(699,332)" aria-hidden="true">
                         <rect fill="#FFC000" class="highcharts-label-box" x="0" y="0" width="80" height="36"></rect>
