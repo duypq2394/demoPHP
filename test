@@ -21,18 +21,26 @@
         $fs1 = false;
         $fs2 = false;
         $vip3 = '172.16.15.120';
-   
+        $activeListWeb1 = [];
+        $activeListWeb2 = [];
+        $dbActive1 = [];
+        $dbActive2 = [];
+        
       	// vip1
         $webIp = getIp('172.16.15.113', 'ip a');
         
         if(strcmp($webIp, '172.16.13.39') == 0) {
         	$web1 = true;
         	$web2 = false;    
+        	
+        	$activeListWeb2 = isActive('172.16.15.114','10.79.32.112');
        	} 
 
         if(strcmp($webIp, '172.16.15.114') == 0) {
         	$web1 = false;
         	$web2 = true;
+        	
+        	$activeListWeb1 = isActive('172.16.13.39','10.79.32.111');
         }
         
         // vip2
@@ -40,11 +48,23 @@
         if(strcmp($dbIp, '172.16.15.116') == 0) {
         	$db1 = true;
         	$db2 = false;
+        	
+        	exec("sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@172.16.15.117 systemctl is-active keepalived", $dbActive2);
+        	$dbActive2[0] = strcmp($dbActive2[0], "active") == 0;
+        	
+        	exec("sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@172.16.15.117 /etc/keepalived/chk_mariadb.sh", $dbActive2);
+        	$dbActive2[1] = strcmp($dbActive2[1], "active") == 0;
         }
 
         if(strcmp($dbIp, '172.16.15.117') == 0) {
         	$db1 = false;
         	$db2 = true;
+        	
+        	exec("sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@172.16.15.116 systemctl is-active keepalived", $dbActive1);
+        	$dbActive1[0] = strcmp($dbActive1[0], "active") == 0;
+        	
+        	exec("sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@172.16.15.116 /etc/keepalived/chk_mariadb.sh", $dbActive1);
+        	$dbActive1[1] = strcmp($dbActive1[1], "active") == 0;
         }
         
         // vip3
@@ -57,6 +77,35 @@
         if(strcmp($fsIp, '172.16.15.124') == 0) {
         	$fs1 = false;
         	$fs2 = true;
+        }
+        
+        function isActive ($ip, $STS_CooperationIp) {
+        	$data = [];
+        	//KeepAlived
+        	exec("sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@{$ip} systemctl is-active keepalived", $data);
+        	$data[0] = strcmp($data[0], "active") == 0;
+        	//Apache(httpd)
+        	exec("sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@{$ip} /etc/keepalived/chk_httpd.sh", $data);
+        	$data[1] = strcmp($data[1], "active") == 0;
+        	//商用環境版SocToolServer
+        	exec("sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@{$ip} /etc/keepalived/chk_SokToolServer_Tougou.sh", $data);
+        	$data[2] = strcmp($data[2], "active") == 0;
+        	//商用環境 v4版ドキュメント管理API版SocToolServer
+        	exec("sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@{$ip} /etc/keepalived/chk_SokToolServer_v4_Tougou.sh", $data);
+        	$data[3] = strcmp($data[3], "active") == 0;
+        	//商用環境 v4版ドキュメント管理API 発呼元10.79.32.220版SocToolServer
+        	exec("sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@{$ip} /etc/keepalived/chk_SokToolServer_v410_Tougou.sh", $data);
+        	$data[4] = strcmp($data[4], "active") == 0;
+        	
+        	//商用環境 連携サーバ版SocToolServer
+        	exec("sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@{$ip} /bin/curl --connect-timeout 1 --output - 'http://{$STS_CooperationIp}/'", $data);
+        	$data[5] = strcmp($data[5], "404 Not Found") == 0;
+        	
+        	//NFS(nfs-server)
+        	exec("sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@{$ip} /etc/keepalived/chk_nfs-server.sh", $data);
+        	$data[6] = strcmp($data[6], "active") == 0;
+        	
+        	return $data;
         }
         
         function getIp ($vip, $code) {
@@ -93,6 +142,7 @@
     <script src="./ssh_check_files/exporting.js"></script>
     <script src="./ssh_check_files/accessibility.js"></script>
 
+	<div class="loader"></div>
     <figure class="highcharts-figure">
         <div id="container" data-highcharts-chart="0" aria-hidden="false" role="region" style="overflow: auto;">
             <div aria-hidden="false" class="highcharts-announcer-container" style="position: relative;">
@@ -132,7 +182,7 @@
                             style="color: black; font-size: 20px; fill: black;"><?php echo $vip1 ?></text></g>
                     <g class="highcharts-label" opacity="<?php echo $web1 ? "1" : "0.5" ?>"
                         transform="translate(393,100)" filter="url(#highcharts-drop-shadow-0)" aria-hidden="true">
-                        <rect fill="#5B9BD5" class="highcharts-label-box" x="0" y="0" width="206" height="136"></rect>
+                        <rect fill="<?php echo in_array(false, $activeListWeb1) ? "red" : "#5B9BD5" ?>" class="highcharts-label-box" x="0" y="0" width="206" height="136"></rect>
                         <text x="50" data-z-index="1" y="79" style="color: white; fill: white;">Web #1</text>
                     </g>
                     <g class="highcharts-label" transform="translate(393,100)" aria-hidden="true">
@@ -140,9 +190,38 @@
                         <text x="3" data-z-index="1" y="19.5"
                             style="color: white; font-size: 20px; fill: white;">172.16.13.39</text>
                     </g>
+                    
+                    
+                    <g class="highcharts-label" opacity="0.5"
+                        transform="translate(393,240)" filter="url(#highcharts-drop-shadow-0)" aria-hidden="true">
+                        <rect fill="#5B9BD5" class="highcharts-label-box" x="0" y="0" width="206" height="132"></rect>
+                        <rect fill="<?php echo $activeListWeb1[0] ? "#5B9BD5" : "red" ?>" class="highcharts-label-box" x="0" y="0" width="206" height="22"></rect>
+                        <rect fill="<?php echo $activeListWeb1[1] ? "#5B9BD5" : "red" ?>" class="highcharts-label-box" x="0" y="22" width="206" height="22"></rect>
+                        <rect fill="<?php echo $activeListWeb1[2] ? "#5B9BD5" : "red" ?>" class="highcharts-label-box" x="0" y="44" width="206" height="22"></rect>
+                        <rect fill="<?php echo $activeListWeb1[3] ? "#5B9BD5" : "red" ?>" class="highcharts-label-box" x="0" y="66" width="206" height="22"></rect>
+                        <rect fill="<?php echo $activeListWeb1[4] ? "#5B9BD5" : "red" ?>" class="highcharts-label-box" x="0" y="88" width="206" height="22"></rect>
+                        <rect fill="<?php echo $activeListWeb1[5] ? "#5B9BD5" : "red" ?>" class="highcharts-label-box" x="0" y="110" width="206" height="22"></rect>
+                        <rect fill="<?php echo $activeListWeb1[6] ? "#5B9BD5" : "red" ?>" class="highcharts-label-box" x="0" y="132" width="206" height="22"></rect>
+                        <text x="3" data-z-index="1" y="15"
+                            style="color: white; font-size: 15px; fill: white;">keepalived</text>
+                        <text x="3" data-z-index="1" y="37"
+                            style="color: white; font-size: 15px; fill: white;">httpd</text>
+                        <text x="3" data-z-index="1" y="59"
+                            style="color: white; font-size: 15px; fill: white;">SocToolServer</text>
+                        <text x="3" data-z-index="1" y="81"
+                            style="color: white; font-size: 15px; fill: white;">SocToolServer_v4doc</text>
+                        <text x="3" data-z-index="1" y="103"
+                            style="color: white; font-size: 15px; fill: white;">SocToolServer _v4doc10</text>
+                        <text x="3" data-z-index="1" y="125"
+                            style="color: white; font-size: 15px; fill: white;">SocToolServer_Cooperation</text>
+                        <text x="3" data-z-index="1" y="147"
+                            style="color: white; font-size: 15px; fill: white;">nfs-server</text>
+                    </g>
+                
+                    
                     <g class="highcharts-label" opacity="<?php echo $web2 ? "1" : "0.5" ?>"
                         transform="translate(393,500)" filter="url(#highcharts-drop-shadow-0)" aria-hidden="true">
-                        <rect fill="#5B9BD5" class="highcharts-label-box" x="0" y="0" width="206" height="136"></rect>
+                        <rect fill="<?php echo in_array(false, $activeListWeb2) ? "red" : "#5B9BD5" ?>" class="highcharts-label-box" x="0" y="0" width="206" height="136"></rect>
                         <text x="50" data-z-index="1" y="79" style="color: white; fill: white;">Web #2</text>
                     </g>
                     <g class="highcharts-label" transform="translate(393,500)" aria-hidden="true">
@@ -150,6 +229,35 @@
                         <text x="3" data-z-index="1" y="19.5"
                             style="color: white; font-size: 20px; fill: white;">172.16.15.114</text>
                     </g>
+                    
+                    <?php if (!$web2) { ?>
+                    <g class="highcharts-label" opacity="0.5"
+                        transform="translate(393,640)" filter="url(#highcharts-drop-shadow-0)" aria-hidden="true">
+                        <rect fill="#5B9BD5" class="highcharts-label-box" x="0" y="0" width="206" height="132"></rect>
+                        <rect fill="<?php echo $activeListWeb2[0] ? "#5B9BD5" : "red" ?>" class="highcharts-label-box" x="0" y="0" width="206" height="22"></rect>
+                        <rect fill="<?php echo $activeListWeb2[1] ? "#5B9BD5" : "red" ?>" class="highcharts-label-box" x="0" y="22" width="206" height="22"></rect>
+                        <rect fill="<?php echo $activeListWeb2[2] ? "#5B9BD5" : "red" ?>" class="highcharts-label-box" x="0" y="44" width="206" height="22"></rect>
+                        <rect fill="<?php echo $activeListWeb2[3] ? "#5B9BD5" : "red" ?>" class="highcharts-label-box" x="0" y="66" width="206" height="22"></rect>
+                        <rect fill="<?php echo $activeListWeb2[4] ? "#5B9BD5" : "red" ?>" class="highcharts-label-box" x="0" y="88" width="206" height="22"></rect>
+                        <rect fill="<?php echo $activeListWeb2[5] ? "#5B9BD5" : "red" ?>" class="highcharts-label-box" x="0" y="110" width="206" height="22"></rect>
+                        <rect fill="<?php echo $activeListWeb2[6] ? "#5B9BD5" : "red" ?>" class="highcharts-label-box" x="0" y="132" width="206" height="22"></rect>
+                        <text x="3" data-z-index="1" y="15"
+                            style="color: white; font-size: 15px; fill: white;">keepalived</text>
+                        <text x="3" data-z-index="1" y="37"
+                            style="color: white; font-size: 15px; fill: white;">httpd</text>
+                        <text x="3" data-z-index="1" y="59"
+                            style="color: white; font-size: 15px; fill: white;">SocToolServer</text>
+                        <text x="3" data-z-index="1" y="81"
+                            style="color: white; font-size: 15px; fill: white;">SocToolServer_v4doc</text>
+                        <text x="3" data-z-index="1" y="103"
+                            style="color: white; font-size: 15px; fill: white;">SocToolServer _v4doc10</text>
+                        <text x="3" data-z-index="1" y="125"
+                            style="color: white; font-size: 15px; fill: white;">SocToolServer_Cooperation</text>
+                        <text x="3" data-z-index="1" y="147"
+                            style="color: white; font-size: 15px; fill: white;">nfs-server</text>
+                    </g>
+                    <?php } ?>
+                    
                     <path fill="none" d="M 157 352 L 213 352" stroke-width="3" stroke="red" stroke-dasharray="12,9"
                         aria-hidden="true"></path>
                     <?php if ($web1) { ?>
@@ -171,9 +279,10 @@
                     <path fill="none" d="M 649 570 L 649 352 L 649 352 L 699 352 M 649 570 L 599 570" stroke-width="3"
                         stroke="#C55A11" aria-hidden="true"></path>
                     <?php } ?>
+                    
                     <g class="highcharts-label" opacity="<?php echo $db1 ? "1" : "0.5" ?>"
                         transform="translate(879,100)" filter="url(#highcharts-drop-shadow-0)" aria-hidden="true">
-                        <rect fill="#5B9BD5" class="highcharts-label-box" x="0" y="0" width="206" height="136"></rect>
+                        <rect fill="<?php echo in_array(false, $dbActive1) ? "red" : "#5B9BD5" ?>" class="highcharts-label-box" x="0" y="0" width="206" height="136"></rect>
                         <text x="55" data-z-index="1" y="79" style="color: white; fill: white;">DB #1</text>
                     </g>
                     <g class="highcharts-label" transform="translate(879,100)" aria-hidden="true">
@@ -181,9 +290,23 @@
                         <text x="3" data-z-index="1" y="19.5"
                             style="color: white; font-size: 20px; fill: white;">172.16.15.116</text>
                     </g>
+                    
+                    <?php if (!$db1) { ?>
+                    <g class="highcharts-label" opacity="0.5"
+                        transform="translate(879,240)" filter="url(#highcharts-drop-shadow-0)" aria-hidden="true">
+                        <rect fill="#5B9BD5" class="highcharts-label-box" x="0" y="0" width="206" height="44"></rect>
+                        <rect fill="<?php echo $dbActive1[0] ? "#5B9BD5" : "red" ?>" class="highcharts-label-box" x="0" y="0" width="206" height="22"></rect>
+                        <rect fill="<?php echo $dbActive1[1] ? "#5B9BD5" : "red" ?>" class="highcharts-label-box" x="0" y="22" width="206" height="22"></rect>
+                        <text x="3" data-z-index="1" y="15"
+                            style="color: white; font-size: 15px; fill: white;">keepalived</text>
+                        <text x="3" data-z-index="1" y="37"
+                            style="color: white; font-size: 15px; fill: white;">mariadb</text>
+                    </g>
+                    <?php } ?>
+                    
                     <g class="highcharts-label" opacity="<?php echo $db2 ? "1" : "0.5" ?>"
                         transform="translate(879,500)" filter="url(#highcharts-drop-shadow-0)" aria-hidden="true">
-                        <rect fill="#5B9BD5" class="highcharts-label-box" x="0" y="0" width="206" height="136"></rect>
+                        <rect fill="<?php echo in_array(false, $dbActive2) ? "red" : "#5B9BD5" ?>" class="highcharts-label-box" x="0" y="0" width="206" height="136"></rect>
                         <text x="55" data-z-index="1" y="79" style="color: white; fill: white;">DB #2</text>
                     </g>
                     <g class="highcharts-label" transform="translate(879,500)" aria-hidden="true">
@@ -191,6 +314,20 @@
                         <text x="3" data-z-index="1" y="19.5"
                             style="color: white; font-size: 20px; fill: white;">172.16.15.117</text>
                     </g>
+                    
+                    <?php if (!$db2) { ?>
+                    <g class="highcharts-label" opacity="0.5"
+                        transform="translate(879,640)" filter="url(#highcharts-drop-shadow-0)" aria-hidden="true">
+                        <rect fill="#5B9BD5" class="highcharts-label-box" x="0" y="0" width="206" height="44"></rect>
+                        <rect fill="<?php echo $dbActive2[0] ? "#5B9BD5" : "red" ?>" class="highcharts-label-box" x="0" y="0" width="206" height="22"></rect>
+                        <rect fill="<?php echo $dbActive2[1] ? "#5B9BD5" : "red" ?>" class="highcharts-label-box" x="0" y="22" width="206" height="22"></rect>
+                        <text x="3" data-z-index="1" y="15"
+                            style="color: white; font-size: 15px; fill: white;">keepalived</text>
+                        <text x="3" data-z-index="1" y="37"
+                            style="color: white; font-size: 15px; fill: white;">mariadb</text>
+                    </g>
+                    <?php } ?>
+                    
                     <g class="highcharts-label" transform="translate(699,332)" aria-hidden="true">
                         <rect fill="#FFC000" class="highcharts-label-box" x="0" y="0" width="80" height="36"></rect>
                         <text x="22" data-z-index="1" y="24.5"
@@ -298,6 +435,27 @@
         max-width: 100vw;
         margin: 1em auto;
     }
+    
+    .loader {
+	  border: 16px solid #f3f3f3;
+	  border-radius: 50%;
+	  border-top: 16px solid #3498db;
+	  width: 120px;
+	  height: 120px;
+	  -webkit-animation: spin 2s linear infinite; /* Safari */
+	  animation: spin 2s linear infinite;
+	}
+
+	/* Safari */
+	@-webkit-keyframes spin {
+	  0% { -webkit-transform: rotate(0deg); }
+	  100% { -webkit-transform: rotate(360deg); }
+	}
+
+	@keyframes spin {
+	  0% { transform: rotate(0deg); }
+	  100% { transform: rotate(360deg); }
+	}
     </style>
 </body><!-- custom styles -->
 
