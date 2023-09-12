@@ -142,7 +142,6 @@
     <script src="./ssh_check_files/exporting.js"></script>
     <script src="./ssh_check_files/accessibility.js"></script>
 
-	<div class="loader"></div>
     <figure class="highcharts-figure">
         <div id="container" data-highcharts-chart="0" aria-hidden="false" role="region" style="overflow: auto;">
             <div aria-hidden="false" class="highcharts-announcer-container" style="position: relative;">
@@ -191,7 +190,7 @@
                             style="color: white; font-size: 20px; fill: white;">172.16.13.39</text>
                     </g>
                     
-                    
+                    <?php if (!$web1) { ?>
                     <g class="highcharts-label" opacity="0.5"
                         transform="translate(393,240)" filter="url(#highcharts-drop-shadow-0)" aria-hidden="true">
                         <rect fill="#5B9BD5" class="highcharts-label-box" x="0" y="0" width="206" height="132"></rect>
@@ -217,7 +216,7 @@
                         <text x="3" data-z-index="1" y="147"
                             style="color: white; font-size: 15px; fill: white;">nfs-server</text>
                     </g>
-                
+                    <?php } ?>
                     
                     <g class="highcharts-label" opacity="<?php echo $web2 ? "1" : "0.5" ?>"
                         transform="translate(393,500)" filter="url(#highcharts-drop-shadow-0)" aria-hidden="true">
@@ -435,27 +434,6 @@
         max-width: 100vw;
         margin: 1em auto;
     }
-    
-    .loader {
-	  border: 16px solid #f3f3f3;
-	  border-radius: 50%;
-	  border-top: 16px solid #3498db;
-	  width: 120px;
-	  height: 120px;
-	  -webkit-animation: spin 2s linear infinite; /* Safari */
-	  animation: spin 2s linear infinite;
-	}
-
-	/* Safari */
-	@-webkit-keyframes spin {
-	  0% { -webkit-transform: rotate(0deg); }
-	  100% { -webkit-transform: rotate(360deg); }
-	}
-
-	@keyframes spin {
-	  0% { transform: rotate(0deg); }
-	  100% { transform: rotate(360deg); }
-	}
     </style>
 </body><!-- custom styles -->
 
