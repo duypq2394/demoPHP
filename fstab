@@ -1,0 +1,47 @@
+
+#
+# /etc/fstab
+# Created by anaconda on Tue Jun 27 02:58:50 2017
+#
+# Accessible filesystems, by reference, are maintained under '/dev/disk'
+# See man pages fstab(5), findfs(8), mount(8) and/or blkid(8) for more info
+#
+/dev/mapper/cl-root     /                       xfs     defaults        0 0
+UUID=13c1abf5-ca79-476b-8d7c-8aff111a36b9 /boot                   xfs     defaults        0 0
+/dev/mapper/cl-swap     swap                    swap    defaults        0 0
+# dbfs01
+# なし
+# web02
+#doc server mount
+# No1
+172.16.15.119:/var/www/html/document_manage/files /var/www/html/doc01 nfs defaults 0 0
+# No26
+# //172.16.15.252/tgfs      /home/share/all/172.16.15.252/tgfs    cifs credentials=/home/share/cifs_cert_172.16.15.252,file_mode=0777,dir_mode=0777,vers=3.0 0 0
+# No23
+# //172.16.15.104/share     /home/share/nw/172.16.15.104/share    cifs credentials=/home/share/cifs_cert_172.16.15.104,file_mode=0777,dir_mode=0777          0 0
+# No7
+# //172.16.9.24/automation/ /home/share/denwa/automation1         cifs credentials=/home/share/cifs_cert_172.16.9.24,file_mode=0777,dir_mode=0777            0 0
+# No9
+# //172.16.15.219/public/   /home/share/houjin/public             cifs credentials=/home/share/cifs_cert_172.16.15.219,file_mode=0777,dir_mode=0777          0 0
+# No10
+# //172.16.15.219/x-folder/ /home/share/houjin/x-folder           cifs credentials=/home/share/cifs_cert_172.16.15.219,file_mode=0777,dir_mode=0777          0 0
+# No17
+# //172.16.15.101/share     /home/share/nw/nas1/share             cifs credentials=/home/share/cifs_cert_172.16.15.101,file_mode=0777,dir_mode=0777,sec=ntlm 0 0
+# No18
+# //172.16.15.101/data      /home/share/nw/nas1/data              cifs credentials=/home/share/cifs_cert_172.16.15.101,file_mode=0777,dir_mode=0777,sec=ntlm 0 0
+# No19
+# //172.16.9.34/share       /home/share/nw/nas2/share             cifs credentials=/home/share/cifs_cert_172.16.9.34,file_mode=0777,dir_mode=0777,sec=ntlm   0 0
+# No20
+# //172.16.9.33/tool        /home/share/nw/tool                   cifs credentials=/home/share/cifs_cert_172.16.9.33,file_mode=0777,dir_mode=0777            0 0
+# No3
+# //172.16.15.226/share     /home/share/link/172.16.15.226/share  cifs credentials=/home/share/cifs_cert_172.16.15.226,file_mode=0777,dir_mode=0777          0 0
+# No6
+# //172.16.9.154/inada-sv2  /home/share/sv/inada-sv2              cifs credentials=/home/share/cifs_cert_172.16.9.154,file_mode=0777,dir_mode=0777           0 0
+# No15
+# //172.16.8.206/Share      /home/share/access/172.16.8.206/Share cifs credentials=/home/share/cifs_cert_172.16.8.206,file_mode=0777,dir_mode=0777,vers=3.0  0 0
+# No8
+# //172.16.9.25/automation  /home/share/denwa/automation2         cifs credentials=/home/share/cifs_cert_172.16.9.25,file_mode=0777,dir_mode=0777 0 0
+# No29
+//172.16.14.149/x-folderV2/ /home/share/houjin/172.16.14.149/x-folderV2 cifs credentials=/home/share/cifs_cert_172.16.14.149,file_mode=0777,dir_mode=0777,vers=1.0   0 0
+
+//172.16.15.123/z_common/ /home/share/zcommon cifs credentials=/home/share/cifs_cert_172.16.15.123,file_mode=0777,dir_mode=0777,vers=3.0   0 0
