@@ -1,0 +1,5 @@
+[root@nois-web01 ~]# ls /home/share/sv/inada-sv2
+ls: /home/share/sv/inada-sv2 にアクセスできません: そのようなファイルやディレクトリはありません
+[root@nois-web01 ~]# ls /home/share/all/172.16.15.252/tgfs
+ITB動作確認用統合網.txt
+[root@nois-web01 ~]#
