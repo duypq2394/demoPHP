@@ -25,118 +25,6 @@
         $activeListWeb2 = [];
         $dbActive1 = [];
         $dbActive2 = [];
-        
-      	// vip1
-        $webIp = getIp('172.16.15.113', 'ip a');
-        
-        if(strcmp($webIp, '172.16.13.39') == 0) {
-        	$web1 = true;
-        	$web2 = false;    
-        	
-        	$activeListWeb2 = isActive('172.16.15.114','10.79.32.112');
-       	} 
-
-        if(strcmp($webIp, '172.16.15.114') == 0) {
-        	$web1 = false;
-        	$web2 = true;
-        	
-        	$activeListWeb1 = isActive('172.16.13.39','10.79.32.111');
-        }
-        
-        // vip2
-        $dbIp = getIp('172.16.15.118', "sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh root@172.16.15.118 ip a");
-        if(strcmp($dbIp, '172.16.15.116') == 0) {
-        	$db1 = true;
-        	$db2 = false;
-        	
-        	exec("sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@172.16.15.117 systemctl is-active keepalived", $dbActive2);
-        	$dbActive2[0] = strcmp($dbActive2[0], "active") == 0;
-        	
-        	exec("sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@172.16.15.117 /etc/keepalived/chk_mariadb.sh", $dbActive2);
-        	$dbActive2[1] = strcmp($dbActive2[1], "active") == 0;
-        }
-
-        if(strcmp($dbIp, '172.16.15.117') == 0) {
-        	$db1 = false;
-        	$db2 = true;
-        	
-        	exec("sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@172.16.15.116 systemctl is-active keepalived", $dbActive1);
-        	$dbActive1[0] = strcmp($dbActive1[0], "active") == 0;
-        	
-        	exec("sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@172.16.15.116 /etc/keepalived/chk_mariadb.sh", $dbActive1);
-        	$dbActive1[1] = strcmp($dbActive1[1], "active") == 0;
-        }
-        
-        // vip3
-        $fsIp = getIp('172.16.15.120', "sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh root@172.16.15.120 ip a");
-        if(strcmp($fsIp, '172.16.13.40') == 0) {
-        	$fs1 = true;
-        	$fs2 = false;
-        }
-
-        if(strcmp($fsIp, '172.16.15.124') == 0) {
-        	$fs1 = false;
-        	$fs2 = true;
-        }
-        
-        function isActive ($ip, $STS_CooperationIp) {
-        	$data = [];
-        	//KeepAlived
-        	exec("sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@{$ip} systemctl is-active keepalived", $data);
-        	$data[0] = strcmp($data[0], "active") == 0;
-        	//Apache(httpd)
-        	exec("sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@{$ip} /etc/keepalived/chk_httpd.sh", $data);
-        	$data[1] = strcmp($data[1], "active") == 0;
-        	//商用環境版SocToolServer
-        	exec("sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@{$ip} /etc/keepalived/chk_SokToolServer_Tougou.sh", $data);
-        	$data[2] = strcmp($data[2], "active") == 0;
-        	//商用環境 v4版ドキュメント管理API版SocToolServer
-        	exec("sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@{$ip} /etc/keepalived/chk_SokToolServer_v4_Tougou.sh", $data);
-        	$data[3] = strcmp($data[3], "active") == 0;
-        	//商用環境 v4版ドキュメント管理API 発呼元10.79.32.220版SocToolServer
-        	exec("sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@{$ip} /etc/keepalived/chk_SokToolServer_v410_Tougou.sh", $data);
-        	$data[4] = strcmp($data[4], "active") == 0;
-        	
-        	//商用環境 連携サーバ版SocToolServer
-        	exec("sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@{$ip} /bin/curl --connect-timeout 1 --output - 'http://{$STS_CooperationIp}/'", $data);
-        	$data[5] = strcmp($data[5], "404 Not Found") == 0;
-        	
-        	//NFS(nfs-server)
-        	exec("sudo -S /usr/local/bin/sshpass -p '!qaz2wsx' ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@{$ip} /etc/keepalived/chk_nfs-server.sh", $data);
-        	$data[6] = strcmp($data[6], "active") == 0;
-        	
-        	return $data;
-        }
-        
-        function getIp ($vip, $code) {
-        	$data = [];
-        	
-        	exec($code, $data);
-            $length = count($data);
-            $i= 0;
-            $ens = '';
-            $ip = '';
-
-            while($i < $length) {
-                if($ens == '') {
-                    if (str_contains($data[$i], $vip)) {
-                        $ens = strstr($data[$i], 'ens');
-                        $ens = "scope global ".$ens;
-                        $i= 0;
-                    }
-                    }else {
-                    if (str_contains($data[$i], $ens)) {
-                        $ip = substr($data[$i], 0, strpos($data[$i], '/'));
-                        $ip = str_replace('inet ', '', $ip) ;
-                        $ip = str_replace(' ', '', $ip) ;
-                        return $ip;
-                        break 1;
-                    }
-                }
-                $i++;
-            }
-            return $ip;
-        }
     ?>
     <script src="./ssh_check_files/highcharts.js"></script>
     <script src="./ssh_check_files/exporting.js"></script>
@@ -331,9 +219,9 @@
                     <g class="highcharts-label" opacity="<?php echo $db2 ? "1" : "0.5" ?>"
                         transform="translate(879,640)" filter="url(#highcharts-drop-shadow-0)" aria-hidden="true">
                         <rect fill="#5B9BD5" class="highcharts-label-box" x="0" y="0" width="206" height="44"></rect>
-                        <rect fill="<?php echo $db1 || $dbActive2[0] ? "#5B9BD5" : "red" ?>"
+                        <rect fill="<?php echo $db2 || $dbActive2[0] ? "#5B9BD5" : "red" ?>"
                             class="highcharts-label-box" x="0" y="0" width="206" height="22"></rect>
-                        <rect fill="<?php echo $db1 || $dbActive2[1] ? "#5B9BD5" : "red" ?>"
+                        <rect fill="<?php echo $db2 || $dbActive2[1] ? "#5B9BD5" : "red" ?>"
                             class="highcharts-label-box" x="0" y="22" width="206" height="22"></rect>
                         <text x="3" data-z-index="1" y="15"
                             style="color: white; font-size: 15px; fill: white;">keepalived</text>
