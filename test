@@ -78,7 +78,14 @@
                         <text x="3" data-z-index="1" y="19.5"
                             style="color: white; font-size: 20px; fill: white;">172.16.13.39</text>
                     </g>
-
+                     <g class="highcharts-label" transform="translate(487,200)" aria-hidden="true">
+                        <foreignObject x="0" y="0" width="120" height="40">
+                            <button x="0" y="0" type="button" style="width:120; height:40;font-size: 12px;"
+                                onclick="window.open('<?php echo $vip1 ?>', '_blank'); return false;">
+                                マウント設定情報
+                            </button>
+                        </foreignObject>
+                    </g>
                     <g class="highcharts-label" opacity="<?php echo $web1 ? "1" : "0.5" ?>"
                         transform="translate(393,240)" filter="url(#highcharts-drop-shadow-0)" aria-hidden="true">
                         <rect fill="#5B9BD5" class="highcharts-label-box" x="0" y="0" width="206" height="132"></rect>
