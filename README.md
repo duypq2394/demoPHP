@@ -17,3 +17,4 @@ Python will keep growing as companies continue to adopt AI and LLM tools like Ch
 JavaScript will continue to be the backbone of the web. It’ll likely remain essential for web development.
 Java developers will stay in demand for DevOps engineering and large-scale business operation
 https://jp.linkedin.com/in/vuonglequoc
+https://japanesetest4you.com/jlpt-n2-grammar-list/
