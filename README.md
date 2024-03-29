@@ -26,3 +26,5 @@ https://www.titech.ac.jp/english/0/education/graduate-majors/ai/curriculum
 https://topics.type.jp/mid-career-recruitment/interview-collection-of-questions/
 https://www.jisha.or.jp/chubu/pdf/d5090_experience_certificate.pdf
 https://www.oshimaland.co.jp/
+https://business-mail.jp/example
+https://business-mail.jp/
