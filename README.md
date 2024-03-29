@@ -18,3 +18,11 @@ JavaScript will continue to be the backbone of the web. It’ll likely remain es
 Java developers will stay in demand for DevOps engineering and large-scale business operation
 https://jp.linkedin.com/in/vuonglequoc
 https://japanesetest4you.com/jlpt-n2-grammar-list/
+https://progeigo.org/learning/essential-words-600-plus/
+https://web-camp.io/magazine/archives/4376
+https://arakan-pgm-ai.hatenablog.com/entry/2019/04/15/000000
+https://www.therogerlab.com/sandbox/pages/how-to-reorder-table-rows-in-javascript?s=0ea4985d74a189e8b7b547976e7192ae.4122809346f6a15e41c9a43f6fcb5fd5
+https://www.titech.ac.jp/english/0/education/graduate-majors/ai/curriculum
+https://topics.type.jp/mid-career-recruitment/interview-collection-of-questions/
+https://www.jisha.or.jp/chubu/pdf/d5090_experience_certificate.pdf
+https://www.oshimaland.co.jp/
